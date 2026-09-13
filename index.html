@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nikolle Yasmim</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background: #0b141a; color: #e9edef; display: flex; justify-content: center; height: 100dvh; overflow: hidden; }
+    
+    .chat-container { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; background: #0b141a; position: relative; }
+    
+    /* Header */
+    .header { background: #202c33; padding: 10px 14px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #222d34; z-index: 10; }
+    .avatar-wrap { position: relative; width: 42px; height: 42px; }
+    .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center 15%; background: #374248; display: block; }
+    .online-badge { width: 11px; height: 11px; background: #00a884; border: 2px solid #202c33; border-radius: 50%; position: absolute; bottom: 0; right: 0; }
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-weight: 600; font-size: 16px; color: #e9edef; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-status { font-size: 12px; color: #8696a0; }
+    .user-status.typing { color: #00a884; font-weight: 500; }
+
+    /* Messages Area */
+    .messages { flex: 1; overflow-y: auto; padding: 16px 12px; display: flex; flex-direction: column; gap: 8px; background-color: #0b141a; background-image: radial-gradient(#182229 1px, transparent 1px); background-size: 16px 16px; }
+    .msg { max-width: 82%; padding: 8px 12px; border-radius: 8px; font-size: 14.5px; line-height: 1.4; position: relative; word-wrap: break-word; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .msg.incoming { background: #202c33; align-self: flex-start; border-top-left-radius: 0; color: #e9edef; }
+    .msg.outgoing { background: #005c4b; align-self: flex-end; border-top-right-radius: 0; color: #e9edef; }
+    .msg .time { font-size: 11px; color: #8696a0; float: right; margin: 4px 0 -2px 8px; }
+    .msg .ticks { color: #53bdeb; margin-left: 2px; }
+    
+    /* Quick Replies - Canvas / Pro Design System */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+      animation: fadeInUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .quick-btn {
+      background: linear-gradient(145deg, #1b262c 0%, #131c21 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 7px 14px 7px 8px;
+      color: #e9edef;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.15px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .quick-btn:hover {
+      background: linear-gradient(145deg, #22323a 0%, #172329 100%);
+      border-color: rgba(0, 168, 132, 0.45);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 168, 132, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+    .quick-btn:active {
+      transform: scale(0.97);
+    }
+    .quick-btn.highlight {
+      border-color: rgba(0, 168, 132, 0.35);
+      background: linear-gradient(145deg, #182d2f 0%, #112124 100%);
+      box-shadow: 0 3px 12px rgba(0, 168, 132, 0.18), inset 0 1px 0 rgba(0, 168, 132, 0.2);
+    }
+    .quick-btn.highlight .btn-icon-wrap {
+      background: rgba(0, 168, 132, 0.2);
+      color: #00d7a7;
+    }
+    .btn-icon-wrap {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      color: #00a884;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .btn-icon-wrap svg {
+      display: block;
+    }
+    .quick-btn:hover .btn-icon-wrap {
+      background: #00a884;
+      color: #111b21;
+    }
+    .btn-label {
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* CTA Link - Canvas / Pro Design System */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #00a884 0%, #008f6f 100%);
+      color: #111b21;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 20px;
+      margin-top: 6px;
+      box-shadow: 0 4px 16px rgba(0, 168, 132, 0.35);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(0, 168, 132, 0.55);
+      filter: brightness(1.08);
+    }
+    .cta-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ===================================================
+       Plan Cards - Privacy.com.br Aesthetic Design
+       =================================================== */
+    .plans-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 6px 0 18px 0;
+      margin-top: 8px;
+      width: 100%;
+    }
+    .plan-card {
+      width: 100%;
+      background: linear-gradient(180deg, #171821 0%, #0e0f14 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .plan-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 76, 48, 0.45);
+      box-shadow: 0 14px 34px rgba(255, 76, 48, 0.25);
+    }
+    .plan-card.featured {
+      border: 1.5px solid #ff4c30;
+      background: linear-gradient(180deg, #1d1b26 0%, #0f0f15 100%);
+      box-shadow: 0 12px 34px rgba(255, 76, 48, 0.25);
+    }
+    .plan-card-ribbon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #ff4c30 0%, #ff1f52 100%);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 12px;
+      z-index: 3;
+      box-shadow: 0 2px 10px rgba(255, 76, 48, 0.5);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .plan-card-header {
+      width: 100%;
+      height: 155px;
+      position: relative;
+      overflow: hidden;
+      background: #090a0d;
+    }
+    .plan-card-img,
+    .plan-card-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .plan-card:hover .plan-card-img,
+    .plan-card:hover .plan-card-video {
+      transform: scale(1.05);
+    }
+    .plan-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #171821 0%, rgba(23, 24, 33, 0.25) 60%, transparent 100%);
+    }
+    .plan-card-header-badge {
+      position: absolute;
+      bottom: 10px;
+      left: 14px;
+      background: rgba(14, 15, 20, 0.88);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 76, 48, 0.35);
+      color: #ff5e3a;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      z-index: 2;
+    }
+    .plan-card-body {
+      padding: 14px 16px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .plan-card-top-info {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 10px;
+    }
+    .plan-card-title {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: -0.2px;
+    }
+    .plan-card-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+    .plan-price-currency {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ff4c30;
+    }
+    .plan-price-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+    .plan-price-period {
+      font-size: 12px;
+      color: #9292a4;
+      margin-left: 3px;
+    }
+    .plan-card-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .plan-card-features li {
+      font-size: 12.5px;
+      color: #d1d2dc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .check-icon {
+      color: #ff4c30;
+      flex-shrink: 0;
+    }
+    .plan-card-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff4c30 0%, #ff1f52 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(255, 76, 48, 0.42);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: 4px;
+      letter-spacing: 0.2px;
+    }
+    .plan-card-btn svg {
+      transition: transform 0.2s ease;
+    }
+    .plan-card-btn:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 24px rgba(255, 76, 48, 0.6);
+      filter: brightness(1.1);
+    }
+    .plan-card-btn:hover svg {
+      transform: translateX(4px);
+    }
+    .plan-card-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* ===================================================
+       Modal Popup Pagamento PIX (Estilo Privacy)
+       =================================================== */
+    .pix-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 100000;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      animation: fadeInModal 0.2s ease-out;
+    }
+    .pix-modal {
+      width: 100%;
+      max-width: 380px;
+      background: #121319;
+      border: 1px solid rgba(255, 76, 48, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 24px rgba(255, 76, 48, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: zoomInModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes zoomInModal {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .pix-modal-header {
+      background: #181922;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .pix-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pix-logo-badge {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 76, 48, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff4c30;
+    }
+    .pix-header-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .pix-header-sub {
+      font-size: 11.5px;
+      color: #9292a4;
+    }
+    .pix-close-btn {
+      background: none;
+      border: none;
+      color: #9292a4;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 50%;
+      line-height: 1;
+      transition: color 0.2s, background 0.2s;
+    }
+    .pix-close-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .pix-modal-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 82vh;
+      overflow-y: auto;
+    }
+    .pix-plan-info {
+      width: 100%;
+      background: #181922;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .pix-plan-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .pix-plan-price {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ff4c30;
+    }
+    .pix-qr-wrap {
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pix-qr-img {
+      width: 160px;
+      height: 160px;
+      display: block;
+      object-fit: contain;
+    }
+    .pix-copy-box {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .pix-copy-label {
+      font-size: 11.5px;
+      color: #9292a4;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .pix-code-input-wrap {
+      display: flex;
+      background: #090a0d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .pix-code-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 9px 12px;
+      color: #a0a0b2;
+      font-size: 11.5px;
+      font-family: monospace;
+      outline: none;
+    }
+    .pix-copy-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff4c30 0%, #ff1f52 100%);
+      color: #ffffff;
+      border: none;
+      padding: 11px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      box-shadow: 0 4px 14px rgba(255, 76, 48, 0.35);
+      transition: all 0.2s;
+    }
+    .pix-copy-btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+    .pix-copy-btn.copied {
+      background: #00d7a7;
+      color: #0b141a;
+      box-shadow: 0 4px 14px rgba(0, 215, 167, 0.35);
+    }
+    .pix-status-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 76, 48, 0.1);
+      border: 1px solid rgba(255, 76, 48, 0.28);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 11.5px;
+      color: #ff5e3a;
+      margin-bottom: 12px;
+    }
+    .pix-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff4c30;
+      box-shadow: 0 0 8px #ff4c30;
+      animation: pulseDot 1.5s infinite;
+    }
+    .pix-instructions {
+      width: 100%;
+      font-size: 11px;
+      color: #9292a4;
+      line-height: 1.5;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 10px;
+    }
+
+    /* Input Box */
+    .footer { background: #202c33; padding: 8px 10px; display: flex; align-items: center; gap: 8px; }
+    .input-field { flex: 1; background: #2a3942; border: none; outline: none; border-radius: 8px; padding: 9px 12px; color: #d1d7db; font-size: 15px; }
+    .input-field::placeholder { color: #8696a0; }
+    .send-btn { background: #00a884; border: none; width: 40px; height: 40px; border-radius: 50%; color: #111b21; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+    .send-btn svg { width: 20px; height: 20px; fill: #111b21; }
+
+    /* Visualização Única */
+    .msg.msg-view-once {
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s, transform 0.1s;
+      min-width: 155px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .msg.msg-view-once:hover {
+      background: #26353d;
+    }
+    .msg.msg-view-once:active {
+      transform: scale(0.98);
+    }
+    .view-once-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .view-once-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #00a884;
+    }
+    .view-once-badge.opened {
+      color: #8696a0;
+    }
+    .view-once-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: #e9edef;
+      letter-spacing: 0.2px;
+    }
+    .view-once-title.opened {
+      color: #8696a0;
+    }
+
+    /* Modal Lightbox Visualização Única */
+    .view-once-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      height: 100dvh;
+      background: #000;
+      z-index: 99999;
+      overflow: hidden;
+      flex-direction: column;
+      animation: fadeInModal 0.2s ease-out;
+    }
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to bottom, rgba(11, 20, 26, 0.92) 0%, rgba(11, 20, 26, 0.5) 70%, transparent 100%);
+      backdrop-filter: blur(6px);
+      padding: 12px 16px;
+      padding-top: max(14px, env(safe-area-inset-top));
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #e9edef;
+      z-index: 20;
+    }
+    .modal-back-btn {
+      background: rgba(0, 0, 0, 0.25);
+      border: none;
+      color: #e9edef;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    .modal-back-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .modal-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e9edef;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+    .modal-subtitle {
+      font-size: 12px;
+      color: #d1d7db;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+    .modal-body {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 1;
+      cursor: pointer;
+    }
+    .modal-photo {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 0;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .modal-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(11, 20, 26, 0.95) 0%, rgba(11, 20, 26, 0.5) 70%, transparent 100%);
+      backdrop-filter: blur(6px);
+      padding: 14px 16px;
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e9edef;
+      font-size: 13px;
+      gap: 8px;
+      z-index: 20;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    /* Timer Bar 2.5s */
+    .timer-bar-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 30;
+    }
+    .timer-bar {
+      height: 100%;
+      width: 0%;
+      background: #00a884;
+    }
+    .timer-bar.running {
+      animation: timerProgress 2.5s linear forwards;
+    }
+    @keyframes timerProgress {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 75px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #202c33;
+      border: 1px solid #2a3942;
+      color: #e9edef;
+      font-size: 13.5px;
+      padding: 9px 18px;
+      border-radius: 24px;
+      z-index: 99999;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      animation: fadeIn 0.2s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="header">
+    <div class="avatar-wrap">
+      <img src="perfil.jpg?v=2" alt="Nikolle Yasmim" class="avatar">
+      <div class="online-badge"></div>
+    </div>
+    <div class="user-info">
+      <div class="user-name" id="modelName">Nikolle Yasmim</div>
+      <div class="user-status" id="modelStatus">online</div>
+    </div>
+  </div>
+
+  <div class="messages" id="messagesList"></div>
+
+  <form class="footer" id="chatForm">
+    <input type="text" id="chatInput" class="input-field" placeholder="Mensagem..." autocomplete="off">
+    <button type="submit" class="send-btn" aria-label="Enviar">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </form>
+</div>
+
+<div id="viewOnceModal" class="view-once-modal">
+  <div class="timer-bar-wrap">
+    <div id="viewOnceTimerBar" class="timer-bar"></div>
+  </div>
+  <div class="modal-header">
+    <button class="modal-back-btn" onclick="closeViewOnce()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+      </svg>
+    </button>
+    <div class="modal-title-wrap">
+      <span class="modal-title">Nikolle Yasmim</span>
+      <span class="modal-subtitle" id="modalTimerText">Visualização única • 2.5s</span>
+    </div>
+  </div>
+  <div class="modal-body" onclick="closeViewOnce()">
+    <img id="viewOnceImg" src="foto_unica.jpg" alt="Visualização Única" class="modal-photo">
+  </div>
+  <div class="modal-footer">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="3.5 2.5" />
+      <text x="12" y="16" font-size="11" font-weight="bold" text-anchor="middle" fill="currentColor">1</text>
+    </svg>
+    <span id="modalFooterText">Esta foto expira em 2.5 segundos</span>
+  </div>
+</div>
+
+<script>
+  // ponytail: fluxo linear com branching por cliques de botões; upgrade para motor de NLP/IA quando o funil fixo estiver validado
+  const SCRIPT_STEPS = {
+    start: {
+      delay: 1000,
+      typing: 1500,
+      messages: [
+        "Oi, amor... Que bom te ver por aqui! 😈",
+        "Olha essa foto que acabei de tirar pra você... clica pra ver antes que expire 👇"
+      ],
+      viewOnce: true
+    },
+    afterViewOnce: {
+      delay: 700,
+      typing: 1500,
+      messages: [
+        "Gostou da foto que te mandei? 🙈",
+        "No meu canal VIP tem muito mais sem censura e vídeos exclusivos todos os dias!"
+      ],
+      options: [
+        { icon: "diamond", label: "Quero o VIP completo", next: "vip", highlight: true },
+        { icon: "camera", label: "Ver Fotos Gratuitas", next: "fotos" }
+      ]
+    },
+    fotos: {
+      delay: 600,
+      typing: 1800,
+      messages: [
+        "Acabei de liberar 3 prévias quentes no meu canal exclusivo!",
+        "Dá uma olhada antes que eu apague 👇"
+      ],
+      cta: { icon: "telegram", label: "Acessar Prévias Grátis", url: "https://t.me/seu_link_aqui" },
+      options: [
+        { icon: "diamond", label: "Quero assinar o VIP completo", next: "vip", highlight: true },
+        { icon: "whatsapp", label: "Chamar no WhatsApp", next: "whats" }
+      ]
+    },
+    vip: {
+      delay: 600,
+      typing: 1800,
+      messages: [
+        "No meu VIP você tem acesso a todos os meus vídeos sem censura, chamada de vídeo e conversas no privado comigo todos os dias. 😈",
+        "Escolha o seu plano abaixo para liberar o acesso agora mesmo 👇"
+      ],
+      plans: ['plano19', 'plano27', 'plano39']
+    },
+    whats: {
+      delay: 600,
+      typing: 1200,
+      messages: [
+        "Me chama no meu WhatsApp pessoal que eu te respondo por áudio agora mesmo: 😘"
+      ],
+      cta: { icon: "whatsapp", label: "Abrir WhatsApp Oficial", url: "https://wa.me/5500000000000?text=Oi+vi+seu+chat" },
+      options: [
+        { icon: "back", label: "Voltar ao início", next: "start" }
+      ]
+    },
+    fallback: {
+      delay: 500,
+      typing: 1200,
+      messages: [
+        "Estou gravando um conteúdo agora, amor! Escolha uma das opções abaixo para eu te atender rápido 👇"
+      ],
+      options: [
+        { icon: "camera", label: "Ver Prévias", next: "fotos" },
+        { icon: "diamond", label: "Entrar no VIP", next: "vip", highlight: true },
+        { icon: "whatsapp", label: "Chamar no WhatsApp", next: "whats" }
+      ]
+    }
+  };
+
+  const messagesList = document.getElementById('messagesList');
+  const chatForm = document.getElementById('chatForm');
+  const chatInput = document.getElementById('chatInput');
+  const modelStatus = document.getElementById('modelStatus');
+
+  const STORAGE_KEY = 'view_once_photo_opened_v1';
+
+  // Suporte a parâmetro de teste ?reset=1 na URL para o administrador poder retestar se desejar
+  if (new URLSearchParams(window.location.search).has('reset')) {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      document.cookie = `${STORAGE_KEY}=; max-age=0; path=/;`;
+    } catch (e) {}
+  }
+
+  function checkViewOnceOpened() {
+    try {
+      if (localStorage.getItem(STORAGE_KEY) === 'true') return true;
+    } catch (e) {}
+    try {
+      if (document.cookie.split('; ').some(row => row.startsWith(STORAGE_KEY + '=true'))) return true;
+    } catch (e) {}
+    return false;
+  }
+
+  function persistViewOnceOpened() {
+    try {
+      localStorage.setItem(STORAGE_KEY, 'true');
+    } catch (e) {}
+    try {
+      document.cookie = `${STORAGE_KEY}=true; max-age=31536000; path=/; SameSite=Lax`;
+    } catch (e) {}
+  }
+
+  let viewOnceOpened = checkViewOnceOpened();
+  let viewOnceFollowUpDone = false;
+
+  const getTime = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  function scrollToBottom() {
+    messagesList.scrollTop = messagesList.scrollHeight;
+  }
+
+  function addMessage(text, type = 'incoming') {
+    const msg = document.createElement('div');
+    msg.className = `msg ${type}`;
+    const ticks = type === 'outgoing' ? '<span class="ticks">✓✓</span>' : '';
+    msg.innerHTML = `${text.replace(/\n/g, '<br>')}<span class="time">${getTime()}${ticks}</span>`;
+    messagesList.appendChild(msg);
+    scrollToBottom();
+  }
+
+  function addViewOnceMessage(imgSrc = 'foto_unica.jpg') {
+    const isAlreadyOpened = checkViewOnceOpened();
+    const msg = document.createElement('div');
+    msg.className = 'msg incoming msg-view-once';
+    msg.setAttribute('role', 'button');
+    msg.setAttribute('tabindex', '0');
+
+    if (isAlreadyOpened) {
+      msg.innerHTML = `
+        <div class="view-once-inner">
+          <div class="view-once-badge opened" id="viewOnceBadge">
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+              <text x="12" y="16" font-size="11" font-weight="700" text-anchor="middle" fill="currentColor">1</text>
+            </svg>
+          </div>
+          <span class="view-once-title opened" id="viewOnceTitle">Aberta</span>
+        </div>
+        <span class="time">${getTime()}</span>
+      `;
+    } else {
+      msg.innerHTML = `
+        <div class="view-once-inner">
+          <div class="view-once-badge" id="viewOnceBadge">
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="3.5 2.5" />
+              <text x="12" y="16" font-size="11" font-weight="700" text-anchor="middle" fill="currentColor">1</text>
+            </svg>
+          </div>
+          <span class="view-once-title" id="viewOnceTitle">Foto</span>
+        </div>
+        <span class="time">${getTime()}</span>
+      `;
+    }
+
+    const openHandler = () => {
+      openViewOnce(imgSrc);
+    };
+
+    msg.onclick = openHandler;
+    msg.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') openHandler(); };
+
+    messagesList.appendChild(msg);
+    scrollToBottom();
+
+    // Se o usuário recarregou e já viu a foto antes, avança o funil suavemente
+    if (isAlreadyOpened && !viewOnceFollowUpDone) {
+      setTimeout(() => {
+        if (!viewOnceFollowUpDone) {
+          viewOnceFollowUpDone = true;
+          triggerStep('afterViewOnce');
+        }
+      }, 1200);
+    }
+  }
+
+  let viewOnceTimer = null;
+  let viewOnceCountdownInterval = null;
+
+  function showToast(text) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = text;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, 2200);
+  }
+
+  function openViewOnce(imgSrc) {
+    if (viewOnceOpened || checkViewOnceOpened()) {
+      showToast('⚠️ Esta foto de visualização única já expirou.');
+      return;
+    }
+
+    // Grava imediatamente a persistência para que mesmo atualizando no meio do timer a foto continue bloqueada
+    viewOnceOpened = true;
+    persistViewOnceOpened();
+
+    const modal = document.getElementById('viewOnceModal');
+    const modalImg = document.getElementById('viewOnceImg');
+    const timerBar = document.getElementById('viewOnceTimerBar');
+    const timerText = document.getElementById('modalTimerText');
+    const footerText = document.getElementById('modalFooterText');
+
+    modalImg.src = imgSrc + '?v=' + Date.now();
+    modal.style.display = 'flex';
+
+    // Iniciar animação da barra de tempo de 2.5s
+    if (timerBar) {
+      timerBar.classList.remove('running');
+      void timerBar.offsetWidth; // reset reflow
+      timerBar.classList.add('running');
+    }
+
+    // Contagem regressiva de 2.5s com atualização suave
+    const durationMs = 2500;
+    const startTime = Date.now();
+    if (timerText) timerText.textContent = `Visualização única • Fecha em 2.5s`;
+    if (footerText) footerText.textContent = `Esta foto expira em 2.5 segundos`;
+
+    clearInterval(viewOnceCountdownInterval);
+    viewOnceCountdownInterval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const remainingMs = Math.max(0, durationMs - elapsed);
+      const remainingSec = (remainingMs / 1000).toFixed(1);
+      if (remainingMs > 0) {
+        if (timerText) timerText.textContent = `Visualização única • Fecha em ${remainingSec}s`;
+        if (footerText) footerText.textContent = `Esta foto expira em ${remainingSec} segundo${remainingSec === '1.0' ? '' : 's'}`;
+      } else {
+        clearInterval(viewOnceCountdownInterval);
+      }
+    }, 100);
+
+    // Fechar automaticamente após exatamente 2.5 segundos (2500ms)
+    clearTimeout(viewOnceTimer);
+    viewOnceTimer = setTimeout(() => {
+      closeViewOnce();
+    }, 2500);
+
+    // Marcar como aberta visualmente na conversa imediatamente
+    const badge = document.getElementById('viewOnceBadge');
+    const title = document.getElementById('viewOnceTitle');
+    if (badge && title) {
+      badge.classList.add('opened');
+      badge.innerHTML = `
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+          <text x="12" y="16" font-size="11" font-weight="700" text-anchor="middle" fill="currentColor">1</text>
+        </svg>
+      `;
+      title.classList.add('opened');
+      title.textContent = 'Aberta';
+    }
+  }
+
+  function closeViewOnce() {
+    clearTimeout(viewOnceTimer);
+    clearInterval(viewOnceCountdownInterval);
+
+    const modal = document.getElementById('viewOnceModal');
+    if (modal.style.display === 'none') return;
+    modal.style.display = 'none';
+
+    // Limpa a imagem para garantir que não permaneça carregada
+    const modalImg = document.getElementById('viewOnceImg');
+    if (modalImg) modalImg.src = '';
+
+    if (!viewOnceFollowUpDone) {
+      viewOnceFollowUpDone = true;
+      setTimeout(() => {
+        triggerStep('afterViewOnce');
+      }, 700);
+    }
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeViewOnce();
+  });
+
+  // Biblioteca de ícones vetoriais reais (estilo Canvas / Lucide Pro)
+  const ICONS = {
+    diamond: `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M11 3L8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg>`,
+    camera: `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
+    whatsapp: `<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.27-2.42 5.82a8.19 8.19 0 0 1-5.82 2.42c-1.47 0-2.92-.39-4.18-1.14l-.3-.18-3.11.82.83-3.03-.2-.31a8.216 8.216 0 0 1-1.26-4.4c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.49-.4-.42-.56-.43h-.47c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.22-.16-.47-.28"/></svg>`,
+    telegram: `<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>`,
+    back: `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>`,
+    pix: `<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M15.42 16.58l-3.42-3.41-3.42 3.41c-.78.78-2.05.78-2.83 0l-2.17-2.17c-.78-.78-.78-2.05 0-2.83l3.41-3.42-3.41-3.42c-.78-.78-.78-2.05 0-2.83l2.17-2.17c.78-.78 2.05-.78 2.83 0l3.42 3.41 3.42-3.41c.78-.78 2.05-.78 2.83 0l2.17 2.17c.78.78.78 2.05 0 2.83l-3.41 3.42 3.41 3.42c.78.78.78 2.05 0 2.83l-2.17 2.17c-.78.78-2.05.78-2.83 0z"/></svg>`
+  };
+
+  // Dados dos 3 Planos VIP
+  const PLANS_DATA = {
+    plano19: {
+      id: 'plano19',
+      name: 'VIP 30 Dias',
+      badge: 'Acesso 30 Dias',
+      ribbon: '30 DIAS',
+      price: '19,90',
+      period: '/30 dias',
+      previewImg: 'perfil.jpg',
+      videoUrl: 'https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/Hot%201%20video.mp4',
+      features: [
+        'Acesso completo durante 30 dias',
+        'Todas as fotos e vídeos exclusivos',
+        'Sem fidelidade ou renovação automática'
+      ],
+      pixCode: '00020126580014br.gov.bcb.pix0136d8f1e290-7c2a-4a11-b753-9189f3cb2901520400005303986540519.905802BR5920Nikolle Yasmim6009Sao Paulo62070503***6304C8A2'
+    },
+    plano27: {
+      id: 'plano27',
+      name: 'VIP 3 Meses',
+      badge: 'Mais Vendido 🔥',
+      ribbon: '3 MESES',
+      featured: true,
+      price: '27,90',
+      period: '/3 meses',
+      previewImg: 'foto_unica.jpg',
+      videoUrl: 'https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/Hot%20video%202.mp4',
+      features: [
+        'Acesso completo durante 3 meses',
+        'Todos os vídeos sem censura liberados',
+        'Conversas no privado todos os dias',
+        'Atualizações e novidades diárias'
+      ],
+      pixCode: '00020126580014br.gov.bcb.pix0136d8f1e290-7c2a-4a11-b753-9189f3cb2901520400005303986540527.905802BR5920Nikolle Yasmim6009Sao Paulo62070503***6304E91B'
+    },
+    plano39: {
+      id: 'plano39',
+      name: 'VIP 1 Ano',
+      badge: 'Melhor Custo-Benefício 👑',
+      ribbon: '1 ANO',
+      price: '39,90',
+      period: '/1 ano',
+      previewImg: 'foto_unica.jpg',
+      videoUrl: 'https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/Hot%20video%203.mp4',
+      features: [
+        'Acesso total por 1 ano (365 dias)',
+        'Todos os vídeos e fotos para sempre',
+        '1 Chamada de vídeo individual exclusiva',
+        'WhatsApp pessoal liberado'
+      ],
+      pixCode: '00020126580014br.gov.bcb.pix0136d8f1e290-7c2a-4a11-b753-9189f3cb2901520400005303986540539.905802BR5920Nikolle Yasmim6009Sao Paulo62070503***6304F2D7'
+    }
+  };
+
+  function renderPlans(planKeys) {
+    const wrap = document.createElement('div');
+    wrap.className = 'plans-container';
+
+    planKeys.forEach(key => {
+      const plan = PLANS_DATA[key];
+      if (!plan) return;
+
+      const card = document.createElement('div');
+      card.className = `plan-card ${plan.featured ? 'featured' : ''}`;
+      card.innerHTML = `
+        ${plan.ribbon ? `<div class="plan-card-ribbon">${plan.ribbon}</div>` : ''}
+        <div class="plan-card-header">
+          ${plan.videoUrl ? `
+            <video class="plan-card-video" src="${plan.videoUrl}" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>
+          ` : `
+            <img src="${plan.previewImg}?v=4" alt="${plan.name}" class="plan-card-img">
+          `}
+          <div class="plan-card-overlay"></div>
+          <div class="plan-card-header-badge">${plan.badge}</div>
+        </div>
+        <div class="plan-card-body">
+          <div class="plan-card-top-info">
+            <h4 class="plan-card-title">${plan.name}</h4>
+            <div class="plan-card-price-wrap">
+              <span class="plan-price-currency">R$</span>
+              <span class="plan-price-val">${plan.price}</span>
+              <span class="plan-price-period">${plan.period}</span>
+            </div>
+          </div>
+
+          <ul class="plan-card-features">
+            ${plan.features.map(f => `
+              <li>
+                <svg class="check-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>${f}</span>
+              </li>
+            `).join('')}
+          </ul>
+
+          <button class="plan-card-btn" onclick="openPixModal('${plan.id}')">
+            <span>Assinar agora</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      `;
+      wrap.appendChild(card);
+    });
+
+    messagesList.appendChild(wrap);
+
+    // Garantir autoplay dos vídeos nos cards
+    wrap.querySelectorAll('video').forEach(vid => {
+      vid.muted = true;
+      vid.play().catch(() => {});
+    });
+
+    setTimeout(() => {
+      wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+  }
+
+  function openPixModal(planId) {
+    const plan = PLANS_DATA[planId] || PLANS_DATA.plano27;
+    const modal = document.getElementById('pixModalOverlay');
+    const nameEl = document.getElementById('pixModalPlanName');
+    const priceEl = document.getElementById('pixModalPlanPrice');
+    const inputEl = document.getElementById('pixCodeInput');
+    const qrImg = document.getElementById('pixQrImg');
+    const copyBtn = document.getElementById('pixCopyBtn');
+    const copyText = document.getElementById('pixCopyBtnText');
+
+    nameEl.textContent = plan.name;
+    priceEl.textContent = `R$ ${plan.price}`;
+    inputEl.value = plan.pixCode;
+
+    // Gerar imagem QR Code de alta precisão
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=3&data=${encodeURIComponent(plan.pixCode)}`;
+    qrImg.src = qrUrl;
+
+    // Reset estado do botão de copiar
+    copyBtn.classList.remove('copied');
+    copyText.textContent = 'Copiar Código Pix';
+
+    modal.style.display = 'flex';
+  }
+
+  function closePixModal() {
+    const modal = document.getElementById('pixModalOverlay');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function copyPixCode() {
+    const inputEl = document.getElementById('pixCodeInput');
+    const copyBtn = document.getElementById('pixCopyBtn');
+    const copyText = document.getElementById('pixCopyBtnText');
+
+    if (!inputEl) return;
+    inputEl.select();
+    inputEl.setSelectionRange(0, 99999);
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(inputEl.value);
+    } else {
+      document.execCommand('copy');
+    }
+
+    copyBtn.classList.add('copied');
+    copyText.textContent = 'Código Copiado! ✔️';
+    showToast('✅ Código Pix copiado! Cole no aplicativo do seu banco.');
+  }
+
+  function renderOptions(options, cta) {
+    if (cta) {
+      const ctaDiv = document.createElement('div');
+      ctaDiv.style.alignSelf = 'flex-start';
+      const ctaIcon = ICONS[cta.icon] || '';
+      ctaDiv.innerHTML = `<a href="${cta.url}" target="_blank" class="cta-btn">${ctaIcon}<span>${cta.label}</span></a>`;
+      messagesList.appendChild(ctaDiv);
+    }
+    if (options && options.length) {
+      const wrap = document.createElement('div');
+      wrap.className = 'quick-replies';
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = `quick-btn ${opt.highlight ? 'highlight' : ''}`;
+        const iconSvg = ICONS[opt.icon] || '';
+        btn.innerHTML = `
+          <span class="btn-icon-wrap">${iconSvg}</span>
+          <span class="btn-label">${opt.label}</span>
+        `;
+        btn.onclick = () => {
+          wrap.remove();
+          addMessage(opt.label, 'outgoing');
+          triggerStep(opt.next);
+        };
+        wrap.appendChild(btn);
+      });
+      messagesList.appendChild(wrap);
+    }
+    scrollToBottom();
+  }
+
+  function triggerStep(stepKey) {
+    const step = SCRIPT_STEPS[stepKey] || SCRIPT_STEPS.fallback;
+    
+    setTimeout(() => {
+      modelStatus.textContent = 'digitando...';
+      modelStatus.classList.add('typing');
+
+      setTimeout(() => {
+        modelStatus.textContent = 'online';
+        modelStatus.classList.remove('typing');
+
+        step.messages.forEach((msg, idx) => {
+          setTimeout(() => addMessage(msg, 'incoming'), idx * 700);
+        });
+
+        const totalDelay = step.messages.length * 700;
+
+        if (step.viewOnce) {
+          setTimeout(() => {
+            addViewOnceMessage('foto_unica.jpg');
+          }, totalDelay);
+        }
+
+        setTimeout(() => {
+          if (step.plans) {
+            renderPlans(step.plans);
+          }
+          renderOptions(step.options, step.cta);
+        }, totalDelay + (step.viewOnce ? 700 : 0));
+
+      }, step.typing || 1200);
+    }, step.delay || 500);
+  }
+
+  chatForm.onsubmit = (e) => {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
+    
+    addMessage(text, 'outgoing');
+    chatInput.value = '';
+
+    // Remove existing quick replies to keep feed clean
+    document.querySelectorAll('.quick-replies').forEach(el => el.remove());
+
+    const lower = text.toLowerCase();
+    if (lower.includes('foto') || lower.includes('gratis') || lower.includes('preview')) {
+      triggerStep('fotos');
+    } else if (lower.includes('vip') || lower.includes('preco') || lower.includes('valor') || lower.includes('comprar') || lower.includes('plano')) {
+      triggerStep('vip');
+    } else if (lower.includes('whats') || lower.includes('zap') || lower.includes('numero') || lower.includes('contato')) {
+      triggerStep('whats');
+    } else {
+      triggerStep('fallback');
+    }
+  };
+
+  // Iniciar fluxo
+  triggerStep('start');
+</script>
+
+<!-- Modal Popup PIX -->
+<div id="pixModalOverlay" class="pix-modal-overlay" onclick="if(event.target === this) closePixModal()">
+  <div class="pix-modal">
+    <div class="pix-modal-header">
+      <div class="pix-header-left">
+        <div class="pix-logo-badge">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M15.42 16.58l-3.42-3.41-3.42 3.41c-.78.78-2.05.78-2.83 0l-2.17-2.17c-.78-.78-.78-2.05 0-2.83l3.41-3.42-3.41-3.42c-.78-.78-.78-2.05 0-2.83l2.17-2.17c.78-.78 2.05-.78 2.83 0l3.42 3.41 3.42-3.41c.78-.78 2.05-.78 2.83 0l2.17 2.17c.78.78.78 2.05 0 2.83l-3.41 3.42 3.41 3.42c.78.78.78 2.05 0 2.83l-2.17 2.17c-.78.78-2.05.78-2.83 0z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="pix-header-title">Pagamento via Pix</div>
+          <div class="pix-header-sub">Liberação imediata do acesso</div>
+        </div>
+      </div>
+      <button class="pix-close-btn" onclick="closePixModal()" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="pix-modal-body">
+      <div class="pix-plan-info">
+        <span class="pix-plan-name" id="pixModalPlanName">VIP Completo</span>
+        <span class="pix-plan-price" id="pixModalPlanPrice">R$ 27,90</span>
+      </div>
+      <div class="pix-qr-wrap">
+        <img id="pixQrImg" src="" alt="QR Code Pix" class="pix-qr-img">
+      </div>
+      <div class="pix-status-badge">
+        <div class="pix-pulse-dot"></div>
+        <span>Aguardando pagamento... Expira em 15:00</span>
+      </div>
+      <div class="pix-copy-box">
+        <label class="pix-copy-label">Pix Copia e Cola:</label>
+        <div class="pix-code-input-wrap">
+          <input type="text" id="pixCodeInput" class="pix-code-input" readonly value="">
+        </div>
+        <button id="pixCopyBtn" class="pix-copy-btn" onclick="copyPixCode()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="pixCopyBtnText">Copiar Código Pix</span>
+        </button>
+      </div>
+      <div class="pix-instructions">
+        Abra o app do seu banco, escolha <strong>Pix &gt; Copia e Cola</strong> (ou aponte a câmera pro QR Code) e pague. O acesso ao VIP é liberado na hora!
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
