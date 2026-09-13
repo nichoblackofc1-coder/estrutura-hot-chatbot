@@ -1385,7 +1385,7 @@
           'Todas as fotos e vídeos exclusivos',
           'Sem fidelidade ou renovação automática'
         ],
-        pixCode: '00020126580014br.gov.bcb.pix0136d8f1e290-7c2a-4a11-b753-9189f3cb2901520400005303986540519.905802BR5920Nikolle Yasmim6009Sao Paulo62070503***6304C8A2'
+        pixCode: '00020101021226870014br.gov.bcb.pix2565qrcode.santsbank.com/dynamic/27190586-3168-44e3-91f7-db5ddc522adb5204000053039865802BR5911GLOBAL LTDA6009Sao Paulo62070503***63046588'
       },
       plano27: {
         id: 'plano27',
@@ -1403,7 +1403,7 @@
           'Conversas no privado todos os dias',
           'Atualizações e novidades diárias'
         ],
-        pixCode: '00020126580014br.gov.bcb.pix0136d8f1e290-7c2a-4a11-b753-9189f3cb2901520400005303986540527.905802BR5920Nikolle Yasmim6009Sao Paulo62070503***6304E91B'
+        pixCode: '00020101021226870014br.gov.bcb.pix2565qrcode.santsbank.com/dynamic/776db956-0790-44e1-89f0-4803c84ff3a05204000053039865802BR5911GLOBAL LTDA6009Sao Paulo62070503***6304FF29'
       },
       plano39: {
         id: 'plano39',
@@ -1420,7 +1420,7 @@
           '1 Chamada de vídeo individual exclusiva',
           'WhatsApp pessoal liberado'
         ],
-        pixCode: '00020126580014br.gov.bcb.pix0136d8f1e290-7c2a-4a11-b753-9189f3cb2901520400005303986540539.905802BR5920Nikolle Yasmim6009Sao Paulo62070503***6304F2D7'
+        pixCode: '00020101021226870014br.gov.bcb.pix2565qrcode.santsbank.com/dynamic/9156b187-dd12-408e-b1fc-6eb9fba674395204000053039865802BR5911GLOBAL LTDA6009Sao Paulo62070503***6304A02A'
       }
     };
 
@@ -1491,7 +1491,7 @@
       }, 150);
     }
 
-    function openPixModal(planId) {
+    async function openPixModal(planId) {
       const plan = PLANS_DATA[planId] || PLANS_DATA.plano27;
       const modal = document.getElementById('pixModalOverlay');
       const nameEl = document.getElementById('pixModalPlanName');
@@ -1514,6 +1514,30 @@
       copyText.textContent = 'Copiar Código Pix';
 
       modal.style.display = 'flex';
+
+      // Gera transação exclusiva em tempo real na SelectusPay com UTM tracking
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const res = await fetch('/api/create-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            planId: plan.id,
+            utm_source: urlParams.get('utm_source') || undefined,
+            utm_campaign: urlParams.get('utm_campaign') || undefined,
+            utm_medium: urlParams.get('utm_medium') || undefined,
+            utm_content: urlParams.get('utm_content') || undefined,
+            utm_term: urlParams.get('utm_term') || undefined
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.pix && data.pix.qr_code) {
+            inputEl.value = data.pix.qr_code;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=3&data=${encodeURIComponent(data.pix.qr_code)}`;
+          }
+        }
+      } catch (e) {}
     }
 
     function closePixModal() {
