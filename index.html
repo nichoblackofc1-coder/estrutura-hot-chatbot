@@ -508,38 +508,52 @@
     }
 
     /* ===================================================
-       Modal Popup Pagamento PIX (Estilo Privacy)
+       Modal Popup Pagamento PIX (Fintech Ultra Profissional)
        =================================================== */
     .pix-modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.88);
-      backdrop-filter: blur(8px);
+      background: rgba(4, 5, 10, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       z-index: 100000;
       align-items: center;
       justify-content: center;
       padding: 14px;
-      animation: fadeInModal 0.2s ease-out;
+      animation: fadeInModal 0.22s ease-out;
     }
 
     .pix-modal {
       width: 100%;
-      max-width: 380px;
-      background: #121319;
-      border: 1px solid rgba(255, 76, 48, 0.4);
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 24px rgba(255, 76, 48, 0.15);
+      max-width: 400px;
+      background: linear-gradient(180deg, #161822 0%, #0d0e15 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      box-shadow: 0 25px 70px -10px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.05), 0 0 35px rgba(0, 209, 157, 0.12);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      animation: zoomInModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: zoomInModal 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .pix-modal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 12%;
+      right: 12%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00d19d, #ff4c30, transparent);
+      border-radius: 2px;
+      opacity: 0.9;
     }
 
     @keyframes zoomInModal {
       from {
         opacity: 0;
-        transform: scale(0.9);
+        transform: scale(0.92);
       }
 
       to {
@@ -549,201 +563,558 @@
     }
 
     .pix-modal-header {
-      background: #181922;
-      padding: 14px 16px;
+      background: rgba(22, 24, 34, 0.95);
+      padding: 15px 16px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .pix-header-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .pix-logo-badge {
-      width: 32px;
-      height: 32px;
-      background: rgba(255, 76, 48, 0.15);
-      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, rgba(0, 209, 157, 0.2) 0%, rgba(0, 168, 126, 0.08) 100%);
+      border: 1px solid rgba(0, 209, 157, 0.35);
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ff4c30;
+      color: #00d19d;
+      box-shadow: 0 4px 12px rgba(0, 209, 157, 0.2);
+      flex-shrink: 0;
     }
 
     .pix-header-title {
       font-size: 15px;
       font-weight: 700;
       color: #ffffff;
+      letter-spacing: -0.2px;
     }
 
     .pix-header-sub {
       font-size: 11.5px;
       color: #9292a4;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pix-header-sub-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #00d19d;
+      box-shadow: 0 0 6px #00d19d;
+      display: inline-block;
     }
 
     .pix-close-btn {
-      background: none;
-      border: none;
-      color: #9292a4;
-      font-size: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #a0a0b2;
+      font-size: 18px;
       cursor: pointer;
-      padding: 4px 8px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       line-height: 1;
-      transition: color 0.2s, background 0.2s;
+      transition: all 0.2s;
+      flex-shrink: 0;
     }
 
     .pix-close-btn:hover {
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.14);
+      transform: scale(1.05);
+    }
+
+    /* Trust Ribbon */
+    .pix-trust-bar {
+      background: rgba(13, 14, 21, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 10px;
+      color: #8b8ea4;
+    }
+
+    .pix-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+
+    .pix-trust-item svg {
+      color: #00d19d;
     }
 
     .pix-modal-body {
-      padding: 16px;
+      padding: 14px 16px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-height: 82vh;
+      max-height: 78vh;
       overflow-y: auto;
     }
 
+    .pix-modal-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .pix-modal-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+    }
+
+    /* Plan summary card */
     .pix-plan-info {
       width: 100%;
-      background: #181922;
-      border-radius: 12px;
-      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%);
+      border-radius: 13px;
+      padding: 11px 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .pix-plan-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pix-plan-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #8b8ea4;
+      font-weight: 600;
     }
 
     .pix-plan-name {
       font-size: 13.5px;
-      font-weight: 600;
+      font-weight: 700;
       color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pix-plan-vip-tag {
+      font-size: 9px;
+      padding: 2px 6px;
+      background: linear-gradient(135deg, rgba(255, 76, 48, 0.25) 0%, rgba(255, 31, 82, 0.25) 100%);
+      border: 1px solid rgba(255, 76, 48, 0.4);
+      color: #ff6b55;
+      border-radius: 5px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .pix-plan-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+
+    .pix-price-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #8b8ea4;
+      font-weight: 600;
     }
 
     .pix-plan-price {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
-      color: #ff4c30;
+      color: #00d19d;
+      letter-spacing: -0.3px;
+      text-shadow: 0 0 16px rgba(0, 209, 157, 0.35);
+    }
+
+    /* QR Code Viewfinder frame */
+    .pix-qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 12px;
+      position: relative;
     }
 
     .pix-qr-wrap {
       background: #ffffff;
-      padding: 12px;
-      border-radius: 14px;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
-      margin-bottom: 14px;
+      padding: 9px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .pix-qr-img {
-      width: 160px;
-      height: 160px;
+      width: 165px;
+      height: 165px;
       display: block;
       object-fit: contain;
+      border-radius: 6px;
     }
 
+    /* Scanner viewfinder corners */
+    .pix-corner {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: #00d19d;
+      border-style: solid;
+      pointer-events: none;
+    }
+
+    .pix-corner.top-left {
+      top: -3px;
+      left: -3px;
+      border-width: 3px 0 0 3px;
+      border-top-left-radius: 7px;
+    }
+
+    .pix-corner.top-right {
+      top: -3px;
+      right: -3px;
+      border-width: 3px 3px 0 0;
+      border-top-right-radius: 7px;
+    }
+
+    .pix-corner.bottom-left {
+      bottom: -3px;
+      left: -3px;
+      border-width: 0 0 3px 3px;
+      border-bottom-left-radius: 7px;
+    }
+
+    .pix-corner.bottom-right {
+      bottom: -3px;
+      right: -3px;
+      border-width: 0 3px 3px 0;
+      border-bottom-right-radius: 7px;
+    }
+
+    .pix-scan-hint {
+      margin-top: 7px;
+      font-size: 11px;
+      color: #8b8ea4;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pix-scan-hint svg {
+      color: #00d19d;
+    }
+
+    /* Live Countdown timer badge */
+    .pix-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 209, 157, 0.08);
+      border: 1px solid rgba(0, 209, 157, 0.28);
+      border-radius: 20px;
+      padding: 5px 13px;
+      font-size: 11.5px;
+      color: #00d19d;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .pix-radar-wrap {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pix-radar-ping {
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: #00d19d;
+      opacity: 0.65;
+      animation: radarPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes radarPing {
+      75%, 100% {
+        transform: scale(2.3);
+        opacity: 0;
+      }
+    }
+
+    .pix-radar-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #00d19d;
+      box-shadow: 0 0 6px #00d19d;
+    }
+
+    .pix-timer-clock {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    /* Pix Copia e Cola box */
     .pix-copy-box {
       width: 100%;
       margin-bottom: 12px;
     }
 
+    .pix-copy-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
     .pix-copy-label {
-      font-size: 11.5px;
-      color: #9292a4;
-      margin-bottom: 6px;
-      display: block;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #8b8ea4;
+      font-weight: 600;
+    }
+
+    .pix-copy-hint {
+      font-size: 10px;
+      color: #00d19d;
+      font-weight: 500;
     }
 
     .pix-code-input-wrap {
       display: flex;
-      background: #090a0d;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
+      align-items: center;
+      background: #090a0f;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 11px;
       overflow: hidden;
-      margin-bottom: 8px;
+      margin-bottom: 9px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .pix-code-input-wrap:hover,
+    .pix-code-input-wrap:focus-within {
+      border-color: rgba(0, 209, 157, 0.5);
+      box-shadow: 0 0 0 3px rgba(0, 209, 157, 0.1);
     }
 
     .pix-code-input {
       flex: 1;
       background: transparent;
       border: none;
-      padding: 9px 12px;
-      color: #a0a0b2;
+      padding: 10px 12px;
+      color: #b3b6c8;
       font-size: 11.5px;
-      font-family: monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       outline: none;
+      cursor: pointer;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
-    .pix-copy-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #ff4c30 0%, #ff1f52 100%);
-      color: #ffffff;
+    .pix-input-copy-btn {
+      background: transparent;
       border: none;
-      padding: 11px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 13px;
+      color: #8b8ea4;
+      padding: 8px 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      box-shadow: 0 4px 14px rgba(255, 76, 48, 0.35);
-      transition: all 0.2s;
+      transition: color 0.2s;
+    }
+
+    .pix-input-copy-btn:hover {
+      color: #00d19d;
+    }
+
+    /* Primary CTA Button */
+    .pix-copy-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #00d19d 0%, #00a87e 100%);
+      color: #08100d;
+      border: none;
+      padding: 12.5px;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 5px 18px rgba(0, 209, 157, 0.35);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pix-copy-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+      transform: skewX(-20deg);
+      animation: btnShimmer 3.5s infinite;
+    }
+
+    @keyframes btnShimmer {
+      0% { left: -100%; }
+      30% { left: 150%; }
+      100% { left: 150%; }
     }
 
     .pix-copy-btn:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
+      transform: translateY(-1.5px);
+      box-shadow: 0 7px 22px rgba(0, 209, 157, 0.45);
+      filter: brightness(1.05);
+    }
+
+    .pix-copy-btn:active {
+      transform: translateY(0);
     }
 
     .pix-copy-btn.copied {
-      background: #00d7a7;
-      color: #0b141a;
-      box-shadow: 0 4px 14px rgba(0, 215, 167, 0.35);
+      background: #ffffff;
+      color: #08100d;
+      box-shadow: 0 5px 18px rgba(255, 255, 255, 0.35);
     }
 
-    .pix-status-badge {
+    /* Step-by-step guidance cards */
+    .pix-steps {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 11px;
+      padding: 9px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .pix-step-row {
       display: flex;
       align-items: center;
-      gap: 7px;
-      background: rgba(255, 76, 48, 0.1);
-      border: 1px solid rgba(255, 76, 48, 0.28);
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-size: 11.5px;
-      color: #ff5e3a;
-      margin-bottom: 12px;
-    }
-
-    .pix-pulse-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #ff4c30;
-      box-shadow: 0 0 8px #ff4c30;
-      animation: pulseDot 1.5s infinite;
-    }
-
-    .pix-instructions {
-      width: 100%;
+      gap: 9px;
       font-size: 11px;
-      color: #9292a4;
-      line-height: 1.5;
+      color: #a0a2b6;
+      line-height: 1.35;
+    }
+
+    .pix-step-num {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: rgba(0, 209, 157, 0.15);
+      border: 1px solid rgba(0, 209, 157, 0.3);
+      color: #00d19d;
+      font-size: 9.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pix-step-text strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Footer security guarantee */
+    .pix-security-note {
+      font-size: 10px;
+      color: #6d7084;
+      display: flex;
+      align-items: center;
+      gap: 5px;
       text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 10px;
+      justify-content: center;
+    }
+
+    .pix-security-note svg {
+      color: #00d19d;
+      flex-shrink: 0;
+    }
+
+    /* Toast alert notification */
+    .pix-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: rgba(18, 20, 28, 0.95);
+      border: 1px solid rgba(0, 209, 157, 0.4);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 30px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 209, 157, 0.25);
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 1000000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .pix-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .pix-toast-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #00d19d;
+      color: #0b141a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
     }
 
     /* Input Box */
@@ -1491,6 +1862,28 @@
       }, 150);
     }
 
+    let pixTimerInterval = null;
+
+    function startPixTimer(durationMinutes = 15) {
+      if (pixTimerInterval) clearInterval(pixTimerInterval);
+      let secondsLeft = durationMinutes * 60;
+      const clockEl = document.getElementById('pixTimerClock');
+
+      function updateDisplay() {
+        const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+        const s = (secondsLeft % 60).toString().padStart(2, '0');
+        if (clockEl) clockEl.textContent = `${m}:${s}`;
+        if (secondsLeft <= 0) {
+          clearInterval(pixTimerInterval);
+          if (clockEl) clockEl.textContent = '00:00';
+        }
+        secondsLeft--;
+      }
+
+      updateDisplay();
+      pixTimerInterval = setInterval(updateDisplay, 1000);
+    }
+
     async function openPixModal(planId) {
       const plan = PLANS_DATA[planId] || PLANS_DATA.plano27;
       const modal = document.getElementById('pixModalOverlay');
@@ -1499,19 +1892,27 @@
       const inputEl = document.getElementById('pixCodeInput');
       const qrImg = document.getElementById('pixQrImg');
       const copyBtn = document.getElementById('pixCopyBtn');
-      const copyText = document.getElementById('pixCopyBtnText');
 
       nameEl.textContent = plan.name;
       priceEl.textContent = `R$ ${plan.price}`;
       inputEl.value = plan.pixCode;
 
       // Gerar imagem QR Code de alta precisão
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=3&data=${encodeURIComponent(plan.pixCode)}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=3&data=${encodeURIComponent(plan.pixCode)}`;
       qrImg.src = qrUrl;
 
       // Reset estado do botão de copiar
       copyBtn.classList.remove('copied');
-      copyText.textContent = 'Copiar Código Pix';
+      copyBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+        <span id="pixCopyBtnText">Copiar Código Pix</span>
+      `;
+
+      // Iniciar contagem regressiva dinâmica de 15 minutos
+      startPixTimer(15);
 
       modal.style.display = 'flex';
 
@@ -1534,7 +1935,7 @@
           const data = await res.json();
           if (data && data.pix && data.pix.qr_code) {
             inputEl.value = data.pix.qr_code;
-            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=3&data=${encodeURIComponent(data.pix.qr_code)}`;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=3&data=${encodeURIComponent(data.pix.qr_code)}`;
           }
         }
       } catch (e) {}
@@ -1543,12 +1944,12 @@
     function closePixModal() {
       const modal = document.getElementById('pixModalOverlay');
       if (modal) modal.style.display = 'none';
+      if (pixTimerInterval) clearInterval(pixTimerInterval);
     }
 
     function copyPixCode() {
       const inputEl = document.getElementById('pixCodeInput');
       const copyBtn = document.getElementById('pixCopyBtn');
-      const copyText = document.getElementById('pixCopyBtnText');
 
       if (!inputEl) return;
       inputEl.select();
@@ -1561,8 +1962,24 @@
       }
 
       copyBtn.classList.add('copied');
-      copyText.textContent = 'Código Copiado! ✔️';
-      showToast('✅ Código Pix copiado! Cole no aplicativo do seu banco.');
+      copyBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#08100d" stroke-width="2.5">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span id="pixCopyBtnText">Código Copiado! Cole no seu banco</span>
+      `;
+
+      // Exibir feedback flutuante (toast)
+      const pixToast = document.getElementById('pixToast');
+      if (pixToast) {
+        pixToast.classList.add('show');
+        clearTimeout(pixToast._timeout);
+        pixToast._timeout = setTimeout(() => {
+          pixToast.classList.remove('show');
+        }, 3200);
+      } else if (typeof showToast === 'function') {
+        showToast('✅ Código Pix copiado! Cole no aplicativo do seu banco.');
+      }
     }
 
     function renderOptions(options, cta) {
@@ -1650,55 +2067,134 @@
     triggerStep('start');
   </script>
 
-  <!-- Modal Popup PIX -->
+  <!-- Modal Popup PIX (Fintech Ultra Profissional) -->
   <div id="pixModalOverlay" class="pix-modal-overlay" onclick="if(event.target === this) closePixModal()">
     <div class="pix-modal">
+      <!-- Header -->
       <div class="pix-modal-header">
         <div class="pix-header-left">
           <div class="pix-logo-badge">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-              <path
-                d="M15.42 16.58l-3.42-3.41-3.42 3.41c-.78.78-2.05.78-2.83 0l-2.17-2.17c-.78-.78-.78-2.05 0-2.83l3.41-3.42-3.41-3.42c-.78-.78-.78-2.05 0-2.83l2.17-2.17c.78-.78 2.05-.78 2.83 0l3.42 3.41 3.42-3.41c.78-.78 2.05-.78 2.83 0l2.17 2.17c.78.78.78 2.05 0 2.83l-3.41 3.42 3.41 3.42c.78.78.78 2.05 0 2.83l-2.17 2.17c-.78.78-2.05.78-2.83 0z" />
+            <svg viewBox="0 0 48 48" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.44 11.23a4.04 4.04 0 015.71 0L24 17.08l5.85-5.85a4.04 4.04 0 015.71 5.71L29.71 22.8l5.85 5.85a4.04 4.04 0 01-5.71 5.71L24 28.51l-5.85 5.85a4.04 4.04 0 01-5.71-5.71L18.29 22.8l-5.85-5.85a4.04 4.04 0 010-5.72z" fill="#00d19d"/>
             </svg>
           </div>
           <div>
             <div class="pix-header-title">Pagamento via Pix</div>
-            <div class="pix-header-sub">Liberação imediata do acesso</div>
+            <div class="pix-header-sub">
+              <span class="pix-header-sub-dot"></span>
+              Aprovação imediata • Acesso instantâneo
+            </div>
           </div>
         </div>
         <button class="pix-close-btn" onclick="closePixModal()" aria-label="Fechar">&times;</button>
       </div>
+
+      <!-- Trust Ribbon -->
+      <div class="pix-trust-bar">
+        <div class="pix-trust-item">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>SSL 256-bit</span>
+        </div>
+        <div class="pix-trust-item">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span>Liberação em 3s</span>
+        </div>
+        <div class="pix-trust-item">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Banco Central</span>
+        </div>
+      </div>
+
       <div class="pix-modal-body">
+        <!-- Plan Summary Card -->
         <div class="pix-plan-info">
-          <span class="pix-plan-name" id="pixModalPlanName">VIP Completo</span>
-          <span class="pix-plan-price" id="pixModalPlanPrice">R$ 27,90</span>
+          <div class="pix-plan-left">
+            <span class="pix-plan-label">Plano Selecionado</span>
+            <div class="pix-plan-name">
+              <span id="pixModalPlanName">VIP 3 Meses</span>
+              <span class="pix-plan-vip-tag">VIP</span>
+            </div>
+          </div>
+          <div class="pix-plan-right">
+            <span class="pix-price-label">Total a pagar</span>
+            <span class="pix-plan-price" id="pixModalPlanPrice">R$ 27,90</span>
+          </div>
         </div>
-        <div class="pix-qr-wrap">
-          <img id="pixQrImg" src="" alt="QR Code Pix" class="pix-qr-img">
+
+        <!-- QR Code with Scanner Viewfinder Frame -->
+        <div class="pix-qr-section">
+          <div class="pix-qr-wrap">
+            <span class="pix-corner top-left"></span>
+            <span class="pix-corner top-right"></span>
+            <span class="pix-corner bottom-left"></span>
+            <span class="pix-corner bottom-right"></span>
+            <img id="pixQrImg" src="" alt="QR Code Pix" class="pix-qr-img">
+          </div>
+          <div class="pix-scan-hint">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Aponte a câmera do seu celular para escanear</span>
+          </div>
         </div>
+
+        <!-- Dynamic Live Timer Badge -->
         <div class="pix-status-badge">
-          <div class="pix-pulse-dot"></div>
-          <span>Aguardando pagamento... Expira em 15:00</span>
+          <div class="pix-radar-wrap">
+            <div class="pix-radar-ping"></div>
+            <div class="pix-radar-dot"></div>
+          </div>
+          <span>Aguardando pagamento... Expira em <strong id="pixTimerClock" class="pix-timer-clock">15:00</strong></span>
         </div>
+
+        <!-- Pix Copia e Cola Box -->
         <div class="pix-copy-box">
-          <label class="pix-copy-label">Pix Copia e Cola:</label>
-          <div class="pix-code-input-wrap">
+          <div class="pix-copy-header">
+            <span class="pix-copy-label">Pix Copia e Cola:</span>
+            <span class="pix-copy-hint">Toque para copiar</span>
+          </div>
+          <div class="pix-code-input-wrap" onclick="copyPixCode()" title="Clique para copiar">
             <input type="text" id="pixCodeInput" class="pix-code-input" readonly value="">
+            <button class="pix-input-copy-btn" type="button" aria-label="Copiar código">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
           </div>
           <button id="pixCopyBtn" class="pix-copy-btn" onclick="copyPixCode()">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
             </svg>
             <span id="pixCopyBtnText">Copiar Código Pix</span>
           </button>
         </div>
-        <div class="pix-instructions">
-          Abra o app do seu banco, escolha <strong>Pix &gt; Copia e Cola</strong> (ou aponte a câmera pro QR Code) e
-          pague. O acesso ao VIP é liberado na hora!
+
+        <!-- Step-by-Step Instructions -->
+        <div class="pix-steps">
+          <div class="pix-step-row">
+            <div class="pix-step-num">1</div>
+            <div class="pix-step-text"><strong>Copie o código</strong> acima ou aponte a câmera pro QR Code.</div>
+          </div>
+          <div class="pix-step-row">
+            <div class="pix-step-num">2</div>
+            <div class="pix-step-text"><strong>Abra o app do seu banco</strong> e acerte a opção Pix &gt; Copia e Cola.</div>
+          </div>
+          <div class="pix-step-row">
+            <div class="pix-step-num">3</div>
+            <div class="pix-step-text"><strong>Cole e confirme</strong>. O acesso ao VIP é liberado na mesma hora!</div>
+          </div>
+        </div>
+
+        <!-- Security Guarantee -->
+        <div class="pix-security-note">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Ambiente criptografado e seguro • Processado via Banco Central</span>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Toast Notification Floating -->
+  <div id="pixToast" class="pix-toast">
+    <div class="pix-toast-icon">✓</div>
+    <span id="pixToastText">Código Pix copiado! Cole no seu banco.</span>
   </div>
 
 </body>
