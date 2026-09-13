@@ -1641,7 +1641,7 @@
       pixTimerInterval = setInterval(updateDisplay, 1000);
     }
 
-    function openPixModal(planId) {
+    async function openPixModal(planId) {
       const plan = PLANS_DATA[planId] || PLANS_DATA.plano27;
       const modal = document.getElementById('pixModalOverlay');
       const nameEl = document.getElementById('pixModalPlanName');
@@ -1652,11 +1652,6 @@
 
       nameEl.textContent = plan.name;
       priceEl.textContent = `R$ ${plan.price}`;
-      inputEl.value = plan.pixCode;
-
-      // Gerar imagem QR Code de alta precisão diretamente do Pix do plano
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=3&data=${encodeURIComponent(plan.pixCode)}`;
-      qrImg.src = qrUrl;
 
       // Reset estado do botão de copiar
       copyBtn.classList.remove('copied');
@@ -1668,10 +1663,46 @@
         <span id="pixCopyBtnText">Copiar Código Pix</span>
       `;
 
-      // Iniciar contagem regressiva dinâmica de 15 minutos
+      // Mostra código padrão inicialmente e prepara tela
+      inputEl.value = 'Gerando Pix ativo...';
+      qrImg.style.opacity = '0.6';
+      modal.style.display = 'flex';
       startPixTimer(15);
 
-      modal.style.display = 'flex';
+      // Gerar Pix em tempo real na SelectusPay
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const res = await fetch('/api/create-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            planId: plan.id,
+            utm_source: urlParams.get('utm_source') || undefined,
+            utm_campaign: urlParams.get('utm_campaign') || undefined,
+            utm_medium: urlParams.get('utm_medium') || undefined,
+            utm_content: urlParams.get('utm_content') || undefined,
+            utm_term: urlParams.get('utm_term') || undefined
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.pix && data.pix.qr_code) {
+            inputEl.value = data.pix.qr_code;
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=3&data=${encodeURIComponent(data.pix.qr_code)}`;
+            qrImg.style.opacity = '1';
+            startPixTimer(15);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Usando Pix fallback:', err);
+      }
+
+      // Se gateway falhar, aplica código base
+      inputEl.value = plan.pixCode;
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=3&data=${encodeURIComponent(plan.pixCode)}`;
+      qrImg.style.opacity = '1';
     }
 
     function closePixModal() {
