@@ -1,11 +1,8 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -15,7 +12,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método não permitido' });
   }
 
-  const { planId, utm_source, utm_campaign, utm_medium, utm_content, utm_term } = req.body || {};
+  // Parse body if it came as string
+  let body = req.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      body = {};
+    }
+  }
+  body = body || {};
+
+  const { planId, utm_source, utm_campaign, utm_medium, utm_content, utm_term } = body;
 
   const PLAN_CONFIG = {
     plano19: { title: 'VIP 30 Dias', unit_price: 1990 },
@@ -59,6 +67,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     return res.status(response.status).json(data);
   } catch (error) {
-    return res.status(500).json({ error: 'Falha ao conectar com o gateway' });
+    return res.status(500).json({ error: error.message || 'Falha ao conectar' });
   }
-}
+};
