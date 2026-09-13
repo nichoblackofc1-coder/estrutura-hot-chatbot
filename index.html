@@ -16,7 +16,7 @@
 
   <!-- Preload prioritário das imagens (LCP Instantâneo) -->
   <link rel="preload" href="perfil.jpg" as="image" fetchpriority="high">
-  <link rel="preload" href="foto_unica.jpg" as="image" fetchpriority="high">
+  <link rel="preload" href="https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/confesso-que-amo-tirar-nude-no-espelho-v0-5o84mzq801fg1%20(1).webp" as="image" fetchpriority="high">
 
   <style>
     * {
@@ -1191,8 +1191,8 @@
       </div>
     </div>
     <div class="modal-body" onclick="closeViewOnce()">
-      <img id="viewOnceImg" src="foto_unica.jpg" alt="Visualização Única" class="modal-photo" fetchpriority="high"
-        decoding="async">
+      <img id="viewOnceImg" src="https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/confesso-que-amo-tirar-nude-no-espelho-v0-5o84mzq801fg1%20(1).webp" alt="Visualização Única" class="modal-photo" fetchpriority="high"
+        decoding="async" onerror="if(this.src!=='foto_unica.jpg') this.src='foto_unica.jpg';">
     </div>
     <div class="modal-footer">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -1323,7 +1323,9 @@
       scrollToBottom();
     }
 
-    function addViewOnceMessage(imgSrc = 'foto_unica.jpg') {
+    const VIEW_ONCE_IMG_SRC = 'https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/confesso-que-amo-tirar-nude-no-espelho-v0-5o84mzq801fg1%20(1).webp';
+
+    function addViewOnceMessage(imgSrc = VIEW_ONCE_IMG_SRC) {
       const isAlreadyOpened = checkViewOnceOpened();
       const msg = document.createElement('div');
       msg.className = 'msg incoming msg-view-once';
@@ -1806,7 +1808,7 @@
 
           if (step.viewOnce) {
             setTimeout(() => {
-              addViewOnceMessage('foto_unica.jpg');
+              addViewOnceMessage(VIEW_ONCE_IMG_SRC);
             }, totalDelay);
           }
 
@@ -1825,7 +1827,7 @@
     (function warmUpCache() {
       try {
         const p1 = new Image(); p1.src = 'perfil.jpg';
-        const p2 = new Image(); p2.src = 'foto_unica.jpg';
+        const p2 = new Image(); p2.src = VIEW_ONCE_IMG_SRC;
         if (typeof PLANS_DATA !== 'undefined') {
           Object.values(PLANS_DATA).forEach(plan => {
             if (plan.pixCode) {
