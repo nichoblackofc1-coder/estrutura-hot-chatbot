@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
   }
 
   // Recupera chave de API da variável de ambiente com fallback seguro
-  const apiKey = process.env.SELECTUSPAY_API_KEY || 'mp_live_d619e8f6acab3f3b7ea64e636c042943c67accf0cba07556';
+  const apiKey = process.env.SELECTUSPAY_API_KEY || 'mp_live_1c16778e07e94689e25571ed470e55c7e9c561742118ff8f';
 
   if (!apiKey) {
     return res.status(500).json({ error: 'Configuração do gateway pendente' });

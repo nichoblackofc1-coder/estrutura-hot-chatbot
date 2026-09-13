@@ -24,7 +24,7 @@ def load_env_file():
 load_env_file()
 
 def get_api_key():
-    return os.environ.get('SELECTUSPAY_API_KEY') or 'mp_live_d619e8f6acab3f3b7ea64e636c042943c67accf0cba07556'
+    return os.environ.get('SELECTUSPAY_API_KEY') or 'mp_live_1c16778e07e94689e25571ed470e55c7e9c561742118ff8f'
 
 PLAN_WHITELIST = {
     'plano19': {'title': 'VIP 30 Dias', 'unit_price': 1990},
