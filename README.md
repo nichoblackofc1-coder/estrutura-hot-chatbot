@@ -32,8 +32,8 @@ Funil interativo de alta conversão simulando a interface nativa do WhatsApp Web
 Você pode rodar qualquer servidor HTTP simples na pasta do projeto:
 
 ```bash
-# Com Python 3
-python -m http.server 8000
+# Servidor multithread ultra rápido com cache otimizado
+python server.py
 ```
 
 Abra no navegador em:
