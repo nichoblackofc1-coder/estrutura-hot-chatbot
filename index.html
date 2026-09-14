@@ -1142,6 +1142,341 @@
       pointer-events: none;
       white-space: nowrap;
     }
+
+    /* ===================================================
+       Modal Popup de Saída (Exit Intent - 1 Mês R$ 9,90)
+       =================================================== */
+    .exit-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100001;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      animation: fadeInModal 0.22s ease-out;
+      overflow-y: auto;
+    }
+
+    .exit-modal {
+      width: 100%;
+      max-width: 390px;
+      background: #11131a;
+      border: 1px solid rgba(255, 76, 48, 0.45);
+      border-radius: 22px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.98), 0 0 35px rgba(255, 76, 48, 0.25);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: zoomInModal 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      margin: auto;
+    }
+
+    .exit-modal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #ff4c30, #ff1f52, transparent);
+      border-radius: 3px;
+      z-index: 5;
+    }
+
+    .exit-modal-header {
+      background: #171822;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .exit-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 76, 48, 0.15);
+      border: 1px solid rgba(255, 76, 48, 0.35);
+      color: #ff5e3a;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .exit-header-badge-dot {
+      width: 7px;
+      height: 7px;
+      background: #ff4c30;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #ff4c30;
+      animation: exitPulseDot 1.4s infinite;
+    }
+
+    @keyframes exitPulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    .exit-close-btn {
+      background: transparent;
+      border: none;
+      color: #8b8d9b;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .exit-close-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .exit-video-container {
+      width: 100%;
+      height: 180px;
+      position: relative;
+      background: #090a0d;
+      overflow: hidden;
+    }
+
+    .exit-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+    }
+
+    .exit-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #11131a 0%, rgba(17, 19, 26, 0.1) 50%, rgba(0, 0, 0, 0.4) 100%);
+      pointer-events: none;
+    }
+
+    .exit-video-tag {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .exit-modal-body {
+      padding: 16px 18px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #11131a;
+    }
+
+    .exit-headline {
+      text-align: center;
+    }
+
+    .exit-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .exit-title span {
+      background: linear-gradient(135deg, #ff5e3a 0%, #ff1f52 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .exit-desc {
+      font-size: 12.5px;
+      color: #9ea0b2;
+      line-height: 1.4;
+    }
+
+    /* Price Box */
+    .exit-price-box {
+      background: linear-gradient(135deg, rgba(255, 76, 48, 0.08) 0%, rgba(255, 31, 82, 0.04) 100%);
+      border: 1px solid rgba(255, 76, 48, 0.28);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .exit-price-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .exit-old-price {
+      font-size: 12px;
+      color: #7b7e92;
+      text-decoration: line-through;
+    }
+
+    .exit-new-price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+
+    .exit-price-currency {
+      font-size: 14px;
+      font-weight: 800;
+      color: #ff4c30;
+    }
+
+    .exit-price-val {
+      font-size: 28px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+
+    .exit-price-period {
+      font-size: 12px;
+      color: #9292a4;
+      margin-left: 2px;
+    }
+
+    .exit-discount-badge {
+      background: linear-gradient(135deg, #ff4c30 0%, #ff1f52 100%);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(255, 76, 48, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Urgency Countdown */
+    .exit-timer-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #ffbe6b;
+      background: rgba(255, 170, 0, 0.1);
+      border: 1px dashed rgba(255, 170, 0, 0.3);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .exit-timer-clock {
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      color: #ffca28;
+    }
+
+    /* Benefits */
+    .exit-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .exit-features li {
+      font-size: 12px;
+      color: #c9cbd8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .exit-features li svg {
+      color: #00d38b;
+      flex-shrink: 0;
+    }
+
+    /* CTA Button */
+    .exit-cta-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff4c30 0%, #ff1f52 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 24px rgba(255, 76, 48, 0.55);
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+      animation: exitBtnPulse 2s infinite;
+    }
+
+    @keyframes exitBtnPulse {
+      0%, 100% {
+        box-shadow: 0 6px 24px rgba(255, 76, 48, 0.55);
+      }
+      50% {
+        box-shadow: 0 8px 32px rgba(255, 76, 48, 0.85);
+        transform: translateY(-1px);
+      }
+    }
+
+    .exit-cta-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+    }
+
+    .exit-cta-btn:active {
+      transform: scale(0.98);
+    }
+
+    .exit-dismiss-link {
+      text-align: center;
+      font-size: 11.5px;
+      color: #6d7182;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.2s;
+    }
+
+    .exit-dismiss-link:hover {
+      color: #9ea0b2;
+    }
   </style>
 </head>
 
@@ -1499,8 +1834,24 @@
       pix: `<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M15.42 16.58l-3.42-3.41-3.42 3.41c-.78.78-2.05.78-2.83 0l-2.17-2.17c-.78-.78-.78-2.05 0-2.83l3.41-3.42-3.41-3.42c-.78-.78-.78-2.05 0-2.83l2.17-2.17c.78-.78 2.05-.78 2.83 0l3.42 3.41 3.42-3.41c.78-.78 2.05-.78 2.83 0l2.17 2.17c.78.78.78 2.05 0 2.83l-3.41 3.42 3.41 3.42c.78.78.78 2.05 0 2.83l-2.17 2.17c-.78.78-2.05.78-2.83 0z"/></svg>`
     };
 
-    // Dados dos 3 Planos VIP
+    // Dados dos Planos VIP (incluindo plano9 para oferta de saída)
     const PLANS_DATA = {
+      plano9: {
+        id: 'plano9',
+        name: 'VIP 1 Mês Promocional',
+        badge: 'Oferta Especial de Saída 💥',
+        ribbon: 'R$ 9,90',
+        price: '9,90',
+        period: '/mês único',
+        previewImg: 'foto_unica.jpg',
+        videoUrl: 'https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/Hot%20video%203.mp4',
+        features: [
+          'Acesso completo por 30 dias liberado',
+          'Todas as fotos e vídeos sem censura',
+          'Sem renovação ou cobranças automáticas'
+        ],
+        pixCode: '00020126820014br.gov.bcb.pix2560pix.treeal.com/qr/v3/at/1af2c0eb-29bf-420d-bed6-bc7e47e2905f5204000053039865802BR5925TURBOFY_TECNOLOGIAS_E_PAG6008BRASILIA62070503***6304C091'
+      },
       plano19: {
         id: 'plano19',
         name: 'VIP 30 Dias',
@@ -1839,9 +2190,203 @@
       } catch (e) { }
     })();
 
+    // ===================================================
+    // LÓGICA DO POPUP DE SAÍDA (Exit Intent - 1 Mês R$ 9,90)
+    // ===================================================
+    let exitPopupTriggered = false;
+    let exitTimerInterval = null;
+
+    if (window.location.search.includes('reset=1')) {
+      try {
+        sessionStorage.removeItem('exit_popup_shown');
+      } catch (e) { }
+    }
+
+    function startExitTimer(durationMinutes = 5) {
+      if (exitTimerInterval) clearInterval(exitTimerInterval);
+      let secondsLeft = durationMinutes * 60;
+      const clockEl = document.getElementById('exitTimerClock');
+
+      function updateDisplay() {
+        const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+        const s = (secondsLeft % 60).toString().padStart(2, '0');
+        if (clockEl) clockEl.textContent = `${m}:${s}`;
+        if (secondsLeft <= 0) {
+          clearInterval(exitTimerInterval);
+          if (clockEl) clockEl.textContent = '00:00';
+        }
+        secondsLeft--;
+      }
+
+      updateDisplay();
+      exitTimerInterval = setInterval(updateDisplay, 1000);
+    }
+
+    function openExitPopup() {
+      try {
+        if (sessionStorage.getItem('exit_popup_shown') === 'true') return;
+      } catch (e) { }
+
+      if (exitPopupTriggered) return;
+
+      // Não interromper se o modal do PIX já estiver aberto
+      const pixModal = document.getElementById('pixModalOverlay');
+      if (pixModal && pixModal.style.display === 'flex') return;
+
+      // Não interromper se a foto de visualização única estiver aberta
+      const viewOnceModal = document.getElementById('viewOnceModal');
+      if (viewOnceModal && viewOnceModal.style.display === 'flex') return;
+
+      exitPopupTriggered = true;
+      try {
+        sessionStorage.setItem('exit_popup_shown', 'true');
+      } catch (e) { }
+
+      const exitOverlay = document.getElementById('exitPopupOverlay');
+      if (exitOverlay) {
+        exitOverlay.style.display = 'flex';
+        const vid = document.getElementById('exitModalVideo');
+        if (vid) {
+          vid.currentTime = 0;
+          vid.muted = true;
+          vid.play().catch(() => { });
+        }
+        startExitTimer(5);
+      }
+    }
+
+    function closeExitPopup() {
+      const exitOverlay = document.getElementById('exitPopupOverlay');
+      if (exitOverlay) exitOverlay.style.display = 'none';
+      const vid = document.getElementById('exitModalVideo');
+      if (vid) vid.pause();
+      if (exitTimerInterval) clearInterval(exitTimerInterval);
+    }
+
+    function acceptExitOffer() {
+      closeExitPopup();
+      openPixModal('plano9');
+    }
+
+    // 1. Detecção Exit Intent Desktop (Mouse se aproximando do topo para fechar a aba)
+    document.addEventListener('mouseleave', (e) => {
+      if (e.clientY <= 20) {
+        openExitPopup();
+      }
+    });
+
+    // 2. Detecção Exit Intent Mobile (Interceptação do botão Voltar do dispositivo)
+    (function setupMobileExitIntent() {
+      try {
+        window.history.pushState({ page: 'chat_active' }, '');
+        window.addEventListener('popstate', (e) => {
+          const pixModal = document.getElementById('pixModalOverlay');
+          if (pixModal && pixModal.style.display === 'flex') {
+            closePixModal();
+            return;
+          }
+          const exitOverlay = document.getElementById('exitPopupOverlay');
+          if (exitOverlay && exitOverlay.style.display === 'flex') {
+            closeExitPopup();
+            return;
+          }
+
+          if (!exitPopupTriggered) {
+            openExitPopup();
+            window.history.pushState({ page: 'exit_offer' }, '');
+          }
+        });
+      } catch (e) { }
+    })();
+
     // Iniciar fluxo
     triggerStep('start');
   </script>
+
+  <!-- Modal Popup de Saída (Exit Intent - R$ 9,90 com Vídeo do 3º Plano) -->
+  <div id="exitPopupOverlay" class="exit-modal-overlay" onclick="if(event.target === this) closeExitPopup()">
+    <div class="exit-modal">
+      <div class="exit-modal-header">
+        <div class="exit-header-badge">
+          <div class="exit-header-badge-dot"></div>
+          <span>ESPERE! NÃO VÁ EMBORA</span>
+        </div>
+        <button class="exit-close-btn" onclick="closeExitPopup()" aria-label="Fechar">&times;</button>
+      </div>
+
+      <!-- Vídeo do Terceiro Plano em Destaque -->
+      <div class="exit-video-container">
+        <video id="exitModalVideo" class="exit-video" src="https://pub-e00c399b92424474ac5b4b5769d48ebd.r2.dev/Hot%20video%203.mp4" autoplay loop muted playsinline webkit-playsinline preload="metadata"></video>
+        <div class="exit-video-overlay"></div>
+        <div class="exit-video-tag">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+          </svg>
+          <span>PRÉVIA EXCLUSIVA DO VIP</span>
+        </div>
+      </div>
+
+      <div class="exit-modal-body">
+        <div class="exit-headline">
+          <h3 class="exit-title">Liberar VIP <span>1 Mês Por R$ 9,90</span></h3>
+          <p class="exit-desc">Antes de sair, aproveite essa chance única para ver todos os meus conteúdos sem censura!</p>
+        </div>
+
+        <div class="exit-price-box">
+          <div class="exit-price-left">
+            <span class="exit-old-price">De R$ 19,90</span>
+            <div class="exit-new-price-wrap">
+              <span class="exit-price-currency">R$</span>
+              <span class="exit-price-val">9,90</span>
+              <span class="exit-price-period">/mês único</span>
+            </div>
+          </div>
+          <div class="exit-discount-badge">-50% OFF</div>
+        </div>
+
+        <div class="exit-timer-bar">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Oferta expira em: <strong id="exitTimerClock" class="exit-timer-clock">04:59</strong></span>
+        </div>
+
+        <ul class="exit-features">
+          <li>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Acesso completo por 30 dias liberado no WhatsApp</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Todas as fotos e vídeos exclusivos sem tarja</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span>Pagamento único via Pix — sem cobranças extras</span>
+          </li>
+        </ul>
+
+        <button class="exit-cta-btn" onclick="acceptExitOffer()">
+          <span>GARANTIR POR R$ 9,90 AGORA</span>
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+
+        <button class="exit-dismiss-link" onclick="closeExitPopup()">
+          Não, prefiro sair e perder meu desconto VIP
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal Popup PIX (Clean, Hot & Sexy) -->
   <div id="pixModalOverlay" class="pix-modal-overlay" onclick="if(event.target === this) closePixModal()">

@@ -31,6 +31,7 @@ module.exports = async function handler(req, res) {
 
   // Whitelist de planos válidos (Imutável do lado do servidor)
   const PLAN_WHITELIST = {
+    plano9: { title: 'VIP 1 Mês Promocional', unit_price: 990 },
     plano19: { title: 'VIP 30 Dias', unit_price: 1990 },
     plano27: { title: 'VIP 3 Meses', unit_price: 2790 },
     plano39: { title: 'VIP 1 Ano', unit_price: 3990 }

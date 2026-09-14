@@ -27,6 +27,7 @@ def get_api_key():
     return os.environ.get('SELECTUSPAY_API_KEY') or 'mp_live_1c16778e07e94689e25571ed470e55c7e9c561742118ff8f'
 
 PLAN_WHITELIST = {
+    'plano9': {'title': 'VIP 1 Mês Promocional', 'unit_price': 990},
     'plano19': {'title': 'VIP 30 Dias', 'unit_price': 1990},
     'plano27': {'title': 'VIP 3 Meses', 'unit_price': 2790},
     'plano39': {'title': 'VIP 1 Ano', 'unit_price': 3990}
