@@ -17,9 +17,9 @@ Funil interativo de alta conversão simulando a interface nativa do WhatsApp Web
 - **Popups e Cards de Planos (Estilo Privacy.com.br)**:
   - Fundo Obsidian Luxury escuro com gradientes coral/fogo (`#ff4c30` a `#ff1f52`).
   - **3 Planos Verticais**:
-    1. **VIP 30 Dias** (R$ 19,90) - Com vídeo de prévia em looping.
-    2. **VIP 3 Meses** (R$ 27,90 - Mais Vendido) - Com vídeo de prévia em looping e contorno neon.
-    3. **VIP 1 Ano** (R$ 39,90 - Melhor Custo-Benefício) - Com vídeo de prévia em looping.
+    1. **VIP 30 Dias** (R$ 14,90) - Com vídeo de prévia em looping.
+    2. **VIP 3 Meses** (R$ 19,90 - Mais Vendido) - Com vídeo de prévia em looping e contorno neon.
+    3. **VIP 1 Ano** (R$ 23,90 - Melhor Custo-Benefício) - Com vídeo de prévia em looping.
   - Botões de chamada para ação **"Assinar agora"**.
 
 - **Modal Popup de Pagamento PIX**:

@@ -28,9 +28,9 @@ def get_api_key():
 
 PLAN_WHITELIST = {
     'plano9': {'title': 'VIP 1 Mês Promocional', 'unit_price': 990},
-    'plano19': {'title': 'VIP 30 Dias', 'unit_price': 1990},
-    'plano27': {'title': 'VIP 3 Meses', 'unit_price': 2790},
-    'plano39': {'title': 'VIP 1 Ano', 'unit_price': 3990}
+    'plano19': {'title': 'VIP 30 Dias', 'unit_price': 1490},
+    'plano27': {'title': 'VIP 3 Meses', 'unit_price': 1990},
+    'plano39': {'title': 'VIP 1 Ano', 'unit_price': 2390}
 }
 
 BLOCKED_PATTERNS = (
